@@ -3,6 +3,8 @@
  */
 
 package br.ufjf.dcc.rotacompartilhada.main;
+import br.ufjf.dcc.rotacompartilhada.model.Pessoa;
+import br.ufjf.dcc.rotacompartilhada.model.Endereco;
 
 /**
  *
@@ -11,6 +13,10 @@ package br.ufjf.dcc.rotacompartilhada.main;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        
+        Endereco endereco1 = new Endereco("Rua","das rosas",50,"Novo Horizonte","JF","estado","Br","36038510");
+        Pessoa pessoa1 = new Pessoa("Matheus", "12204380652",endereco1);
+        
+
     }
 }
