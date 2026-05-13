@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package br.ufjf.dcc.rotacompartilhada.model;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -17,8 +20,13 @@ public class Motorista extends Pessoa {
     public Motorista(String nome, String cpf, Endereco endereco, Veiculo veiculo){
         
         super(nome, cpf, endereco);
-        this.veiculo = veiculo;
-        this.disponivel = true;
+        setVeiculo(veiculo);
+        setDisponivel(true);
+    }
+    public Motorista(String nome, String cpf, Endereco endereco){
+        
+        super(nome, cpf, endereco);
+        this.setDisponivel(false);
     }
     
     public boolean podeOferecerCarona(){
@@ -40,5 +48,6 @@ public class Motorista extends Pessoa {
     public void setDisponivel(boolean disponivel) {
         this.disponivel = disponivel;
     }
+    
     
 }
