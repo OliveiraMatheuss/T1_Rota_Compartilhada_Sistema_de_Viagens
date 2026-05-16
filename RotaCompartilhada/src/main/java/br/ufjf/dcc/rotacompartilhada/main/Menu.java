@@ -8,8 +8,10 @@ import br.ufjf.dcc.rotacompartilhada.model.Passageiro;
 import br.ufjf.dcc.rotacompartilhada.model.Endereco;
 import br.ufjf.dcc.rotacompartilhada.model.Veiculo;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  *
@@ -42,7 +44,7 @@ public class Menu {
         
         switch(opcao){
             case 1 -> menuMotorista();
-           // case 2 -> menuPassageiro();
+            case 2 -> menuPassageiro();
             //case 3 -> menuCarona();
             case 0 -> System.out.println("Saindo...");
             
@@ -73,16 +75,9 @@ public class Menu {
             }
         }
     }
-    public void cadastrarMotorista(){
-     
-        //PESSOA
-        System.out.println("--- Cadastro de Motorista ---");
-        System.out.print("Nome: ");
-        String nome = teclado.nextLine();
-        System.out.print("CPF: ");
-        String cpf = teclado.nextLine();
+    
+    public Endereco cadastraEndereco(){
         
-        //ENDERECO
         System.out.print("Tipo Logradouto: ");
         String tipo = teclado.nextLine();
         System.out.print("Nome Logradouro: ");
@@ -100,6 +95,21 @@ public class Menu {
         System.out.print("CEP: ");
         String cep = teclado.nextLine();
         
+        Endereco endereco = new Endereco(tipo,nomeLogradouro,numero,bairro,cidade,estado,pais,cep);
+        return endereco;
+    }
+    public void cadastrarMotorista(){
+     
+        //PESSOA
+        System.out.println("--- Cadastro de Motorista ---");
+        System.out.print("Nome: ");
+        String nome = teclado.nextLine();
+        System.out.print("CPF: ");
+        String cpf = teclado.nextLine();
+        
+        //ENDERECO
+        Endereco endereco = cadastraEndereco();
+        
         //VEICULO
         System.out.print("Nome do Veiculo: ");
         String nomeVeiculo = teclado.nextLine();
@@ -114,17 +124,18 @@ public class Menu {
         System.out.print("Cor: ");
         String cor = teclado.nextLine();
         
-        
-        Endereco endereco = new Endereco(tipo,nomeLogradouro,numero,bairro,cidade,estado,pais,cep);
         Veiculo veiculo = new Veiculo(nomeVeiculo,modelo,placa,chassi,ano,cor);
-        if(ano>=2016){
-            Motorista motorista = new Motorista(nome,cpf,endereco,veiculo);
-            this.motoristas.add(motorista);
+        Motorista motorista = new Motorista(nome,cpf,endereco,veiculo);
+ 
+        if(motorista.getVeiculo().getAnoFabricacao()<2016){
+            motorista.setDisponivel(false);
+            
         }
         else{
-            Motorista motorista = new Motorista(nome,cpf,endereco);
-            this.motoristas.add(motorista);
+            motorista.setDisponivel(true);
         }
+        this.motoristas.add(motorista);
+        
 }
     
     public void listarMotorista(){
@@ -171,5 +182,50 @@ public class Menu {
         
         
     }
+    
+    private void menuPassageiro(){
+        int opcao = 1;
+        
+        while(opcao!=0){
+            System.out.println("\n=== MENU PASSAGEIRO ===");
+            System.out.println("1. Cadastrar Passageiro");
+            System.out.println("2. Listar Passageiro");
+            System.out.println("3. Procurar Passageiro");
+            System.out.println("4. voltar");
+            System.out.println("0. Sair");
+            System.out.print("Escolha uma opção: ");
+            
+            opcao = Integer.parseInt(teclado.nextLine());
+            
+            switch(opcao){
+            case 1 -> cadastrarPassageiro();
+            //case 2 -> listarPassageiro();
+            //case 3 -> procurarPassageiro();
+            //case 4 -> exibirMenuPrincipal();
+            case 0 -> System.out.println("Saindo...");
+            
+            }
+        }
+    }
+    
+    private void cadastrarPassageiro(){
+        //PESSOA
+        System.out.println("--- Cadastro de Motorista ---");
+        System.out.print("Nome: ");
+        String nome = teclado.nextLine();
+        System.out.print("CPF: ");
+        String cpf = teclado.nextLine();
+        
+        //ENDERECO
+       Endereco endereco =  cadastraEndereco();
+       Passageiro passageiro = new Passageiro(nome,cpf,endereco);
+       
+       this.passageiro.add(passageiro);
+        
+        
+        
+    }
+    
+    
     
 }
