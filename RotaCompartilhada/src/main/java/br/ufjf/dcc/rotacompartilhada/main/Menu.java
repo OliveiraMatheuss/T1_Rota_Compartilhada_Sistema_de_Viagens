@@ -20,7 +20,7 @@ import java.util.Set;
 public class Menu {
     
     private List<Motorista> motoristas = new ArrayList<>();
-    private List<Passageiro> passageiro = new ArrayList<>();
+    private List<Passageiro> passageiros = new ArrayList<>();
     private Scanner teclado = new Scanner(System.in);
     
     public void exibirMenuPrincipal(){
@@ -199,8 +199,8 @@ public class Menu {
             
             switch(opcao){
             case 1 -> cadastrarPassageiro();
-            //case 2 -> listarPassageiro();
-            //case 3 -> procurarPassageiro();
+            case 2 -> listarPassageiro();
+            case 3 -> procurarPassageiro();
             //case 4 -> exibirMenuPrincipal();
             case 0 -> System.out.println("Saindo...");
             
@@ -220,11 +220,61 @@ public class Menu {
        Endereco endereco =  cadastraEndereco();
        Passageiro passageiro = new Passageiro(nome,cpf,endereco);
        
-       this.passageiro.add(passageiro);
+       this.passageiros.add(passageiro);
         
         
         
     }
+    
+    public void listarPassageiro(){
+        
+        System.out.println("=== PASSAGEIROS CADASTRADOS ===");
+        
+        if(this.passageiros.isEmpty())
+        {
+            System.out.println("Nenhum Passageiro Cadastrado");
+            menuPassageiro();
+        }
+        else{
+        
+            for(Passageiro passageiro: this.passageiros){
+            
+                System.out.println("Passageiro: "+passageiro.getNome() + " CPF: " + passageiro.getCpf());
+            
+            }
+        }
+         
+    }
+    
+    private void procurarPassageiro(){
+        
+        System.out.println("=== DADOS DO PASSAGEIRO ===");
+        System.out.print("Digite o CPF do Passageiro: ");
+        String cpfPassageiro = teclado.nextLine();
+        
+        for(Passageiro passageiro: this.passageiros){
+            if(passageiro.getCpf().equals(cpfPassageiro)){
+                exibirPassageiro(passageiro);
+            }
+            
+        }
+        
+    }
+    public void exibirPassageiro(Passageiro passageiro){
+        
+        System.out.println("=== DADOS DO MOTORISTA ===");
+        System.out.println("Motoritas: "+passageiro.getNome() + " CPF: " + passageiro.getCpf());
+        System.out.println("---- Endereco ---");
+        
+        Endereco endereco = passageiro.getEndereco();
+        
+       String enderecoString = endereco.getTipoLogradouro() + " " + endereco.getNomeLogradouro() + " ,"+ endereco.getNumero() +" " + endereco.getBairro() + " " + endereco.getCidade() + " " + endereco.getPais() + " " + endereco.getCep();
+       
+        System.out.println(enderecoString);
+        
+        
+    }
+   
     
     
     
