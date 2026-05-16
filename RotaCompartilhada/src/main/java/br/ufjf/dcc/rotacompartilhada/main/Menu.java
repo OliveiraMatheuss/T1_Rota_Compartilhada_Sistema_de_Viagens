@@ -17,8 +17,8 @@ import java.util.Scanner;
  */
 public class Menu {
     
-    private List<Motorista> motoristas;
-    private List<Passageiro> passageiro;
+    private List<Motorista> motoristas = new ArrayList<>();
+    private List<Passageiro> passageiro = new ArrayList<>();
     private Scanner teclado = new Scanner(System.in);
     
     public void exibirMenuPrincipal(){
@@ -65,8 +65,9 @@ public class Menu {
             
             switch(opcao){
             case 1 -> cadastrarMotorista();
-           // case 2 -> listarMotorista();
-           // case 3 -> procurarMotorista();
+            case 2 -> listarMotorista();
+            case 3 -> procurarMotorista();
+            case 4 -> exibirMenuPrincipal();
             case 0 -> System.out.println("Saindo...");
             
             }
@@ -124,8 +125,51 @@ public class Menu {
             Motorista motorista = new Motorista(nome,cpf,endereco);
             this.motoristas.add(motorista);
         }
-        
-        
 }
+    
+    public void listarMotorista(){
+        
+        System.out.println("=== MOTORISTAS CADASTRADOS ===");
+        
+        if(this.motoristas.isEmpty())
+        {
+            System.out.println("Nenhum Motorista Cadastrado");
+            menuMotorista();
+        }
+        else{
+        
+            for(Motorista motorista: this.motoristas){
+            
+                System.out.println("Motorias: "+motorista.getNome() + " CPF: " + motorista.getCpf());
+            
+            }
+        }
+         
+    }
+    public void procurarMotorista(){
+        
+        System.out.println("=== DADOS DO MOTORISTA ===");
+        System.out.print("Digite o CPF do Motorista: ");
+        String cpfMotorista = teclado.nextLine();
+        
+        for(Motorista motorista: this.motoristas){
+            if(motorista.getCpf().equals(cpfMotorista)){
+                exibirMotorista(motorista);
+            }
+            
+        }
+        
+    }
+    public void exibirMotorista(Motorista motorista){
+        
+        System.out.println("=== DADOS DO MOTORISTA ===");
+        System.out.println("Motoritas: "+motorista.getNome() + " CPF: " + motorista.getCpf());
+        System.out.println("");
+        System.out.println("--- Dados do Veiculo --- ");
+        System.out.println("Veiculo: " + motorista.getVeiculo().getNome() + " Modelo: "+ motorista.getVeiculo().getmodelo() + " Placa: " + motorista.getVeiculo().getPlaca());
+        System.out.println("Chassi: "+ motorista.getVeiculo().getChassi()+ " Ano: "+ motorista.getVeiculo().getAnoFabricacao() + " Cor: "+ motorista.getVeiculo().getCor());
+        
+        
+    }
     
 }
