@@ -59,8 +59,9 @@ public class Menu {
             System.out.println("1. Cadastrar Motorista");
             System.out.println("2. Listar Motoristas");
             System.out.println("3. Procurar Motorista");
-            System.out.println("4. voltar");
-            System.out.println("0. Sair");
+            System.out.println("4. Editar Motorista");
+            System.out.println("5. Excluir Motorista");
+            System.out.println("0. voltar");
             System.out.print("Escolha uma opção: ");
             
             opcao = Integer.parseInt(teclado.nextLine());
@@ -69,8 +70,9 @@ public class Menu {
             case 1 -> cadastrarMotorista();
             case 2 -> listarMotorista();
             case 3 -> procurarMotorista();
-            case 4 -> exibirMenuPrincipal();
-            case 0 -> System.out.println("Saindo...");
+            case 4 -> editarMotorista();
+            //case 5 -> excluirMotorista();
+            case 0 -> exibirMenuPrincipal();
             
             }
         }
@@ -157,6 +159,8 @@ public class Menu {
         }
          
     }
+    
+    
     public void procurarMotorista(){
         
         System.out.println("=== DADOS DO MOTORISTA ===");
@@ -181,6 +185,88 @@ public class Menu {
         System.out.println("Chassi: "+ motorista.getVeiculo().getChassi()+ " Ano: "+ motorista.getVeiculo().getAnoFabricacao() + " Cor: "+ motorista.getVeiculo().getCor());
         
         
+    }
+    
+    private void menuEditarMotorista(){
+        
+        System.out.println("=== EDITAR MOTORISTA ===");
+        System.out.print("Digite o Cpf do Motorista: ");
+        String cpfMotorista = teclado.nextLine();
+        
+        for(Motorista motorista: this.motoristas){
+            
+            if(motorista.getCpf().equals(cpfMotorista)){
+                editarMotorista(motorista);
+            }
+        }
+    }
+    
+    private void editarMotorista(Motorista motorista){
+    
+        System.out.println("1. Nome");
+        System.out.println("2. Cpf");
+        System.out.println("3. Endereco");
+        System.out.println("4. Veiculo");
+        System.out.println("5. Disponibilidade");
+        System.out.println("0. Voltar");
+        System.out.print("Escolha o Campo para Editar: ");
+        int opcao = Integer.parseInt(teclado.nextLine());
+        
+        switch(opcao){
+            
+            case 1: 
+                System.out.print("Digite o novo nome");
+                String novoNome = teclado.nextLine();
+                motorista.setNome(novoNome);
+                
+            case 2: 
+                System.out.println("Digite o novo Cpf");
+                String novoCpf = teclado.nextLine();
+                motorista.setCpf(novoCpf);
+                
+            case 3: 
+                System.out.println("Edite o novo Endereco");
+                Endereco endereco = cadastraEndereco();
+                motorista.setEndereco(endereco);
+            
+            case 4:
+                System.out.print("Nome do Veiculo: ");
+                String nomeVeiculo = teclado.nextLine();
+                System.out.print("Modelo: ");
+                String modelo = teclado.nextLine();
+                System.out.print("Placa: ");
+                String placa = teclado.nextLine();
+                System.out.print("Chassi: ");
+                String chassi = teclado.nextLine();
+                System.out.print("Ano: ");
+                int ano = Integer.parseInt(teclado.nextLine());
+                System.out.print("Cor: ");
+                String cor = teclado.nextLine();
+        
+                Veiculo veiculo = new Veiculo(nomeVeiculo,modelo,placa,chassi,ano,cor);
+                motorista.setVeiculo(veiculo);
+                
+            case 5:
+                System.out.print("Digite 0 para indisponivel e 1 disponivel");
+                String opc = teclado.nextLine();
+                if(opc == "1"){
+                    motorista.setDisponivel(true);
+                }
+                else if(opc == "0")
+                {
+                    motorista.setDisponivel(false);
+                }
+                else{
+                    System.out.println("Opção Invalida:");
+                    menuEditarMotorista();
+                }
+            case 0: 
+                menuMotorista();
+                 
+                
+            
+            
+        }
     }
     
     private void menuPassageiro(){
