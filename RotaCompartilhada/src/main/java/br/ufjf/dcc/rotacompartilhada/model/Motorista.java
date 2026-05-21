@@ -22,6 +22,7 @@ public class Motorista extends Pessoa {
         super(nome, cpf, endereco);
         setVeiculo(veiculo);
         setDisponivel(true);
+        
     }
     
     // Somente para teste
