@@ -23,6 +23,14 @@ public class Menu {
     private List<Passageiro> passageiros = new ArrayList<>();
     private Scanner teclado = new Scanner(System.in);
     
+    
+    //SOMENTE PARA TESTE, APAGAR DEPOIS
+    
+    public void setMotoristaTeste(){
+        Motorista motorista = new Motorista();
+        this.motoristas.add(motorista);
+    }
+    
     public void exibirMenuPrincipal(){
         int opcao = 1;
         
@@ -70,8 +78,8 @@ public class Menu {
             case 1 -> cadastrarMotorista();
             case 2 -> listarMotorista();
             case 3 -> procurarMotorista();
-            case 4 -> editarMotorista();
-            //case 5 -> excluirMotorista();
+            case 4 -> menuEditarMotorista();
+            case 5 -> menuExcluirMotorista();
             case 0 -> exibirMenuPrincipal();
             
             }
@@ -215,19 +223,22 @@ public class Menu {
         switch(opcao){
             
             case 1: 
-                System.out.print("Digite o novo nome");
+                System.out.print("Digite o novo nome: ");
                 String novoNome = teclado.nextLine();
                 motorista.setNome(novoNome);
+                editarMotorista(motorista);
                 
             case 2: 
-                System.out.println("Digite o novo Cpf");
+                System.out.println("Digite o novo Cpf: ");
                 String novoCpf = teclado.nextLine();
                 motorista.setCpf(novoCpf);
+                editarMotorista(motorista);
                 
             case 3: 
-                System.out.println("Edite o novo Endereco");
+                System.out.println("Edite o novo Endereco: ");
                 Endereco endereco = cadastraEndereco();
                 motorista.setEndereco(endereco);
+                editarMotorista(motorista);
             
             case 4:
                 System.out.print("Nome do Veiculo: ");
@@ -245,6 +256,8 @@ public class Menu {
         
                 Veiculo veiculo = new Veiculo(nomeVeiculo,modelo,placa,chassi,ano,cor);
                 motorista.setVeiculo(veiculo);
+                editarMotorista(motorista);
+                
                 
             case 5:
                 System.out.print("Digite 0 para indisponivel e 1 disponivel");
@@ -258,15 +271,49 @@ public class Menu {
                 }
                 else{
                     System.out.println("Opção Invalida:");
-                    menuEditarMotorista();
+                    editarMotorista(motorista);
                 }
             case 0: 
                 menuMotorista();
+                break;
                  
                 
             
             
         }
+    }
+    
+    private void menuExcluirMotorista(){
+        
+        System.out.println("=== EXCLUIR MOTORISTA ===");
+        System.out.print("Digite o Cpf do Motorista: ");
+        String cpfMotorista = teclado.nextLine();
+        
+        for(Motorista motorista: this.motoristas){
+            
+            if(motorista.getCpf().equals(cpfMotorista)){
+                excluirMotorista(motorista);
+                break;
+            }
+        }
+    }
+    
+    private void excluirMotorista(Motorista motorista){
+        System.out.println("Você irá remover este motorista: " + motorista.getNome() + " CPF: " + motorista.getCpf());
+        System.out.println("Tem certeza? ");
+        System.out.println("Digite 1 para Sim e 2 para Não");
+        
+        int confirmacao = Integer.parseInt(teclado.nextLine());
+        
+        if(confirmacao == 1){
+            motoristas.remove(motorista);
+            System.out.println("Motorista removido com sucesso!");
+        }
+        else{
+            System.out.println("Operação cancelada. Voltando...");
+            
+        }
+        
     }
     
     private void menuPassageiro(){

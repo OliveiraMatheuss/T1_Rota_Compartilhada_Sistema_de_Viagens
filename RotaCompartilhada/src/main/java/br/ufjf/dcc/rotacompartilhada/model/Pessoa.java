@@ -19,6 +19,9 @@ public abstract class Pessoa {
         this.cpf = cpf;
         this.endereco = endereco;
     }
+    public Pessoa(){
+        
+    }
     
     public String getNome(){
         return this.nome; 

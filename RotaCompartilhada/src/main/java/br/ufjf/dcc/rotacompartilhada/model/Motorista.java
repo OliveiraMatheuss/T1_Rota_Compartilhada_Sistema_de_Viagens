@@ -23,10 +23,17 @@ public class Motorista extends Pessoa {
         setVeiculo(veiculo);
         setDisponivel(true);
     }
-    public Motorista(String nome, String cpf, Endereco endereco){
+    
+    // Somente para teste
+    public Motorista(){
         
-        super(nome, cpf, endereco);
+        Endereco endereco = new Endereco("Rua","Nome Log",50,"bairro","cidade","estado","pais","cep");
+        Veiculo veiculo = new Veiculo("Nome","Modelo","Placa","Chassi", 2025, "Cor");
+        super.setNome("Matheus");
+        super.setCpf("12204380652");
+        super.setEndereco(endereco);
         this.setDisponivel(false);
+        setVeiculo(veiculo);
     }
     
     public boolean podeOferecerCarona(){
