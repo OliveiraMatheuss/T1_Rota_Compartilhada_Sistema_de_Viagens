@@ -4,6 +4,7 @@
 
 package br.ufjf.dcc.rotacompartilhada.main;
 
+
 /**
  *
  * @author 55329
@@ -14,7 +15,7 @@ public class Main {
         
         Menu menu = new Menu();
         menu.setMotoristaTeste();
-        menu.exibirMenuPrincipal();
+        menu.exibirMenuPrincipal(); 
         
 
     }
