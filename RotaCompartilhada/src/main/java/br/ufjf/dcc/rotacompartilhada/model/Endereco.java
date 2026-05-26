@@ -20,11 +20,11 @@ public class Endereco {
     private String pais;
     private String cep;
     
-    private static final List<String>logradourosPermitidos = Arrays.asList("Rua","Avenida", "Alameda","Praça","Travessa","Rodovia","Estrada","Beco","Balneario","Bosque","Cais","Calçada","largo","Viaduto","Viela","Passarela");
+    private static final List<String>LOGRADOUROS_PERMITIDOS = Arrays.asList("Rua","Avenida", "Alameda","Praça","Travessa","Rodovia","Estrada","Beco","Balneario","Bosque","Cais","Calçada","largo","Viaduto","Viela","Passarela");
     
     public Endereco(String tipoLogradouro, String nomeLogradouro, int numero, String bairro, String cidade, String estado, String pais,String cep){
         
-        if(logradourosPermitidos.contains(tipoLogradouro)){
+        if(LOGRADOUROS_PERMITIDOS.contains(tipoLogradouro)){
             
             this.tipoLogradouro = tipoLogradouro;
             this.nomeLogradouro = nomeLogradouro;
@@ -37,7 +37,7 @@ public class Endereco {
             
         }
         else{
-            throw new IllegalArgumentException("Tipo de logradouro inválido: " + tipoLogradouro);
+            System.out.println("Tipo de logradouro inválido: " + tipoLogradouro);
         }
     }
     
@@ -70,7 +70,7 @@ public class Endereco {
     }
     
     public void setTipoLogradouro(String tipoLogradouro){
-        if(this.logradourosPermitidos.contains(tipoLogradouro))
+        if(this.LOGRADOUROS_PERMITIDOS.contains(tipoLogradouro))
         {
             this.tipoLogradouro = tipoLogradouro;
         }

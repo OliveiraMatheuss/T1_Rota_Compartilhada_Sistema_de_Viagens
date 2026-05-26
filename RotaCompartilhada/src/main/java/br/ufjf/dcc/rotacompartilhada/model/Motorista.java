@@ -33,7 +33,7 @@ public class Motorista extends Pessoa {
         super.setNome("Matheus");
         super.setCpf("12204380652");
         super.setEndereco(endereco);
-        this.setDisponivel(false);
+        this.setDisponivel(true);
         setVeiculo(veiculo);
     }
     

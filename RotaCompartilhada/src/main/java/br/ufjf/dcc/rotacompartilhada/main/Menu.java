@@ -4,15 +4,14 @@
  */
 package br.ufjf.dcc.rotacompartilhada.main;
 
-import br.ufjf.dcc.rotacompartilhada.model.Motorista;
-import br.ufjf.dcc.rotacompartilhada.model.Passageiro;
-import br.ufjf.dcc.rotacompartilhada.model.Endereco;
-import br.ufjf.dcc.rotacompartilhada.model.Veiculo;
+import br.ufjf.dcc.rotacompartilhada.model.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.Random;
 
 /**
  *
@@ -22,6 +21,7 @@ public class Menu {
 
     private List<Motorista> motoristas = new ArrayList<>();
     private List<Passageiro> passageiros = new ArrayList<>();
+    private List<Carona> caronas = new ArrayList<>();
     private Scanner teclado = new Scanner(System.in);
 
     //SOMENTE PARA TESTE, APAGAR DEPOIS
@@ -54,13 +54,15 @@ public class Menu {
                 menuMotorista();
             case 2 ->
                 menuPassageiro();
-            //case 3 -> menuCarona();
+            case 3 ->
+                menuCarona();
             case 0 ->
                 System.out.println("Saindo...");
 
         }
     }
 
+    // MOTORISTA
     public void menuMotorista() {
         int opcao = 1;
 
@@ -164,14 +166,12 @@ public class Menu {
             System.out.println("Nenhum Motorista Cadastrado");
             return;
         }
- 
 
         for (Motorista motorista : this.motoristas) {
             System.out.println("Motorias: " + motorista.getNome() + " CPF: " + motorista.getCpf());
         }
 
     }
-       
 
     public void procurarMotorista() {
 
@@ -233,7 +233,6 @@ public class Menu {
                     String novoNome = teclado.nextLine();
                     motorista.setNome(novoNome);
                     break;
-             
 
                 case 2:
                     System.out.println("Digite o novo Cpf: ");
@@ -321,6 +320,7 @@ public class Menu {
 
     }
 
+    // PASSAGEIRO
     private void menuPassageiro() {
         int opcao = 1;
 
@@ -337,18 +337,23 @@ public class Menu {
             opcao = Integer.parseInt(teclado.nextLine());
 
             switch (opcao) {
-                case 1 -> cadastrarPassageiro();
-                    
-                case 2 -> listarPassageiro();
-                    
-                case 3 -> procurarPassageiro();
-                
-                case 4 -> menuEditarPassageiro();
-                
-                case 5 -> menuExcluirPassageiro();
-                    
-                case 0 -> System.out.println("Saindo...");
-                    
+                case 1 ->
+                    cadastrarPassageiro();
+
+                case 2 ->
+                    listarPassageiro();
+
+                case 3 ->
+                    procurarPassageiro();
+
+                case 4 ->
+                    menuEditarPassageiro();
+
+                case 5 ->
+                    menuExcluirPassageiro();
+
+                case 0 ->
+                    System.out.println("Saindo...");
 
             }
         }
@@ -377,14 +382,13 @@ public class Menu {
         if (this.passageiros.isEmpty()) {
             System.out.println("Nenhum Passageiro Cadastrado");
             return;
-        } 
+        }
 
         for (Passageiro passageiro : this.passageiros) {
 
             System.out.println("Passageiro: " + passageiro.getNome() + " CPF: " + passageiro.getCpf());
 
         }
-        
 
     }
 
@@ -416,7 +420,7 @@ public class Menu {
         System.out.println(enderecoString);
 
     }
-    
+
     private void menuEditarPassageiro() {
 
         System.out.println("=== EDITAR Passageiro ===");
@@ -449,7 +453,6 @@ public class Menu {
                     String novoNome = teclado.nextLine();
                     passageiro.setNome(novoNome);
                     break;
-             
 
                 case 2:
                     System.out.println("Digite o novo Cpf: ");
@@ -475,7 +478,7 @@ public class Menu {
 
     }
 
-    private void menuExcluirPassageiro(){
+    private void menuExcluirPassageiro() {
         System.out.println("=== EXCLUIR PASSAGEIRO ===");
         System.out.print("Digite o Cpf do Passageiro: ");
         String cpfPassageiro = teclado.nextLine();
@@ -502,6 +505,116 @@ public class Menu {
         } else {
             System.out.println("Operação cancelada. Voltando...");
 
+        }
+
+    }
+
+    // CARONA
+    private void menuCarona() {
+
+        int opcao = 1;
+
+        while (opcao != 0) {
+            System.out.println("=== MENU CARONA ===");
+            System.out.println("1. Cadastrar Carona");
+            System.out.println("2. Agendar Carona");
+            System.out.println("3. Exibir Agendamento de Caronas");
+            System.out.println("4. Verificar Status de Uma Carona");
+            System.out.println("5. Exibir Caronas em Andamento");
+            System.out.println("6. Exibir Caronas Finalizadas");
+            System.out.println("0. Voltar");
+            System.out.print("Escolha uma opção: ");
+
+            opcao = Integer.parseInt(teclado.nextLine());
+
+            switch (opcao) {
+                case 1:
+                    CadastrarCarona();
+
+            }
+        }
+    }
+
+    private void CadastrarCarona() {
+
+        System.out.println("=== CADASTRAR CARONA ===");
+
+        System.out.print("Digite o CPF do Passageiro Solicitante: ");
+        String cpfPassageiro = teclado.nextLine();
+        Passageiro passageiroSelecionado = null;
+
+        for (Passageiro passageiro : this.passageiros) {
+
+            if (passageiro.getCpf().equals(cpfPassageiro)) {
+
+                passageiroSelecionado = passageiro;
+                break;
+            }
+        }
+
+        if (passageiroSelecionado == null) {
+            System.out.println("Passageiro não encontrado.");
+        } else {
+
+            LocalDateTime inicio = LocalDateTime.now();
+            Random geradorHoras = new Random();
+            int duracao = geradorHoras.nextInt(1, 4);
+            LocalDateTime fim = inicio.plusHours(duracao);
+
+            for (Carona carona : this.caronas) {
+
+                if (carona.getPassageiro().getCpf().equals(cpfPassageiro) && carona.conflitaCom(inicio, fim)) {
+                    System.out.println("Alerta: O Passageiro já possui uma carona agendada!");
+                    break;
+                }
+            }
+
+            System.out.println("Digite as Informações do Endereco de Origem: ");
+            Endereco origem = cadastraEndereco();
+
+            System.out.println("Digite as Informações do Endereco Destino: ");
+            Endereco destino = cadastraEndereco();
+            
+            if(origem.getNomeLogradouro().equalsIgnoreCase(destino.getNomeLogradouro()) &&
+               origem.getNumero() == destino.getNumero() &&
+               origem.getCidade().equalsIgnoreCase(destino.getCidade())){
+                
+                System.out.println("[ERRO] Cadastro cancelado: O endereço de origem não pode ser igual ao de destino!");
+                return;
+            }
+
+            List<Motorista> motoristasSelecionados = new ArrayList<>();
+
+            for (Motorista motorista : this.motoristas) {
+
+                if (motorista.isDisponivel()) {
+
+                    boolean temConflito = false;
+
+                    for (Carona carona : this.caronas) {
+
+                        if (carona.getMotorista().getCpf().equals(motorista.getCpf()) && carona.conflitaCom(inicio, fim)) {
+                            temConflito = true;
+                            break;
+                        }
+                    }
+                    if (!temConflito) {
+                        motoristasSelecionados.add(motorista);
+                    }
+                }
+            }
+            if (motoristasSelecionados.isEmpty()) {
+                System.out.println("Alerta: Nenhum motorista disponivel");
+                return;
+                
+            }
+
+            Random random = new Random();
+            int indiceSorteado = random.nextInt(motoristasSelecionados.size());
+            Motorista motoristaSorteado = motoristasSelecionados.get(indiceSorteado);
+
+            Carona carona = new Carona(passageiroSelecionado, motoristaSorteado, origem, destino, inicio, duracao);
+            this.caronas.add(carona);
         }
 
     }
