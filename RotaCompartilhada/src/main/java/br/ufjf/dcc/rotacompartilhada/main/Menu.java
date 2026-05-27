@@ -6,10 +6,8 @@ package br.ufjf.dcc.rotacompartilhada.main;
 
 import br.ufjf.dcc.rotacompartilhada.model.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -533,6 +531,7 @@ public class Menu {
                 case 1:
                     cadastrarCarona();
                     agendarCarona();
+                    exibirAgendamentos();
 
             }
         }
@@ -638,7 +637,7 @@ public class Menu {
     }
 
     private LocalDateTime lerDataHora() {
-        
+
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         while (true) {
@@ -648,7 +647,6 @@ public class Menu {
 
                 LocalDateTime dataHoraDigitada = LocalDateTime.parse(entrada, formatador);
 
-                
                 if (dataHoraDigitada.isBefore(LocalDateTime.now())) {
                     System.out.println("[ERRO] A data e hora do agendamento devem ser no futuro!");
                     continue;
@@ -659,6 +657,39 @@ public class Menu {
             } catch (DateTimeParseException e) {
                 System.out.println("[ERRO] Formato inválido! Use o padrão nacional: dd/MM/yyyy HH:mm");
             }
+        }
+    }
+
+    private void exibirAgendamentos() {
+
+        System.out.println("=== CARONAS AGENDADAS (FUTURAS) ===");
+
+        if (this.caronas.isEmpty()) {
+            System.out.println("Nenhuma carona cadastrada no sistema.");
+            return;
+        }
+        boolean encontrouAgendamento = false;
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        
+        for (Carona carona : this.caronas) {
+            if (carona.getDataHoraInicio().isAfter(LocalDateTime.now())) {
+                encontrouAgendamento = true;
+
+                System.out.println("\n--------------------------------------------------");
+                System.out.println("Passageiro: " + carona.getPassageiro().getNome() + " (CPF: " + carona.getPassageiro().getCpf() + ")");
+                System.out.println("Motorista: " + carona.getMotorista().getNome() + " (CPF: " + carona.getMotorista().getCpf() + ")");
+                System.out.println("Origem: " + carona.getOrigem().getNomeLogradouro() + ", " + carona.getOrigem().getNumero());
+                System.out.println("Destino: " + carona.getDestino().getNomeLogradouro() + ", " + carona.getDestino().getNumero());
+                System.out.println("Horário de Partida: " + carona.getDataHoraInicio().format(formatador));
+                System.out.println("Chegada Estimada: " + carona.getDataHoraFim().format(formatador));
+                System.out.println("--------------------------------------------------");
+            }
+        }
+
+        
+        if (!encontrouAgendamento) {
+            System.out.println("Não existem caronas agendadas.");
         }
     }
 
