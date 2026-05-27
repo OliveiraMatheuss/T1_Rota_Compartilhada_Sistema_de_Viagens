@@ -532,6 +532,7 @@ public class Menu {
                     cadastrarCarona();
                     agendarCarona();
                     exibirAgendamentos();
+                    verificarStatusCarona();
 
             }
         }
@@ -692,5 +693,39 @@ public class Menu {
             System.out.println("Não existem caronas agendadas.");
         }
     }
-
+   
+    private void verificarStatusCarona(){
+        System.out.println("=== VERIFICAR STATUS DE CARONA ===");
+    
+    if (this.caronas.isEmpty()) {
+        System.out.println("Nenhuma carona cadastrada no sistema.");
+        return;
+    }
+    
+    System.out.print("Digite o CPF do Passageiro para buscar o status: ");
+    String cpf = teclado.nextLine();
+    
+    boolean encontrou = false;
+    DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    
+    for (Carona carona : this.caronas) {
+        
+        if (carona.getPassageiro().getCpf().equals(cpf)) {
+            encontrou = true;
+            
+            System.out.println("\n--------------------------------------------------");
+            System.out.println("STATUS DA CARONA: [" + carona.obterStatus() + "]");
+            System.out.println("Motorista: " + carona.getMotorista().getNome());
+            System.out.println("Origem: " + carona.getOrigem().getNomeLogradouro());
+            System.out.println("Destino: " + carona.getDestino().getNomeLogradouro());
+            System.out.println("Horário de Partida: " + carona.getDataHoraInicio().format(formatador));
+            System.out.println("Chegada Estimada: " + carona.getDataHoraFim().format(formatador));
+            System.out.println("--------------------------------------------------");
+        }
+    }
+    
+    if (!encontrou) {
+        System.out.println("[AVISO] Nenhuma carona encontrada para o CPF informado.");
+    }
+    }
 }

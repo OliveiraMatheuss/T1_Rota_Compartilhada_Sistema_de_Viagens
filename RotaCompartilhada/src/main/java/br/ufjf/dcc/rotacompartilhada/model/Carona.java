@@ -13,7 +13,7 @@ import java.util.List;
  * @author 55329
  */
 public class Carona {
-    
+
     private Motorista motorista;
     private Passageiro passageiro;
     private Endereco origem;
@@ -21,20 +21,32 @@ public class Carona {
     private LocalDateTime dataHoraInicio;
     private LocalDateTime dataHoraFim;
     private int duracaoHoras;
-    
-    public Carona(Passageiro passageiro,Motorista motorista,  Endereco origem, Endereco destino, LocalDateTime dataHoraInicio, int duracaoHoras){
-        
+
+    public Carona(Passageiro passageiro, Motorista motorista, Endereco origem, Endereco destino, LocalDateTime dataHoraInicio, int duracaoHoras) {
+
         this.passageiro = passageiro;
         this.motorista = motorista;
         this.origem = origem;
         this.destino = destino;
         this.dataHoraInicio = dataHoraInicio;
         this.dataHoraFim = dataHoraInicio.plusHours(duracaoHoras);
-        
+
     }
-    
-    public boolean conflitaCom(LocalDateTime inicioOutra, LocalDateTime fimOutra){
+
+    public boolean conflitaCom(LocalDateTime inicioOutra, LocalDateTime fimOutra) {
         return this.dataHoraInicio.isBefore(fimOutra) && this.dataHoraFim.isAfter(inicioOutra);
+    }
+
+    public String obterStatus() {
+        LocalDateTime agora = LocalDateTime.now();
+
+        if (this.dataHoraInicio.isAfter(agora)) {
+            return "AGENDADA";
+        } else if (this.dataHoraFim.isBefore(agora)) {
+            return "FINALIZADA";
+        } else {
+            return "EM ANDAMENTO";
+        }
     }
 
     public Motorista getMotorista() {
@@ -92,7 +104,5 @@ public class Carona {
     public void setDuracaoHoras(int duracaoHoras) {
         this.duracaoHoras = duracaoHoras;
     }
-    
-    
+
 }
-    
