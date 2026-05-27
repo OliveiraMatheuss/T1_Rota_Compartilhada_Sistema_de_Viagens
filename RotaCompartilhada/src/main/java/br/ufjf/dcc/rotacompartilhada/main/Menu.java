@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Random;
 
 /**
@@ -529,18 +531,27 @@ public class Menu {
 
             switch (opcao) {
                 case 1:
-                    CadastrarCarona();
+                    cadastrarCarona();
+                    agendarCarona();
 
             }
         }
     }
 
-    private void CadastrarCarona() {
+    private void cadastrarCarona() {
 
         System.out.println("=== CADASTRAR CARONA ===");
 
         System.out.print("Digite o CPF do Passageiro Solicitante: ");
         String cpfPassageiro = teclado.nextLine();
+
+        LocalDateTime inicio = LocalDateTime.now();
+        criarCarona(cpfPassageiro, inicio);
+
+    }
+
+    private void criarCarona(String cpfPassageiro, LocalDateTime inicio) {
+
         Passageiro passageiroSelecionado = null;
 
         for (Passageiro passageiro : this.passageiros) {
@@ -556,7 +567,6 @@ public class Menu {
             System.out.println("Passageiro não encontrado.");
         } else {
 
-            LocalDateTime inicio = LocalDateTime.now();
             Random geradorHoras = new Random();
             int duracao = geradorHoras.nextInt(1, 4);
             LocalDateTime fim = inicio.plusHours(duracao);
@@ -574,11 +584,11 @@ public class Menu {
 
             System.out.println("Digite as Informações do Endereco Destino: ");
             Endereco destino = cadastraEndereco();
-            
-            if(origem.getNomeLogradouro().equalsIgnoreCase(destino.getNomeLogradouro()) &&
-               origem.getNumero() == destino.getNumero() &&
-               origem.getCidade().equalsIgnoreCase(destino.getCidade())){
-                
+
+            if (origem.getNomeLogradouro().equalsIgnoreCase(destino.getNomeLogradouro())
+                    && origem.getNumero() == destino.getNumero()
+                    && origem.getCidade().equalsIgnoreCase(destino.getCidade())) {
+
                 System.out.println("[ERRO] Cadastro cancelado: O endereço de origem não pode ser igual ao de destino!");
                 return;
             }
@@ -606,7 +616,7 @@ public class Menu {
             if (motoristasSelecionados.isEmpty()) {
                 System.out.println("Alerta: Nenhum motorista disponivel");
                 return;
-                
+
             }
 
             Random random = new Random();
@@ -618,7 +628,38 @@ public class Menu {
         }
 
     }
-    
-    
+
+    public void agendarCarona() {
+        System.out.println("=== AGENDAR CARONA FUTURA ===");
+        System.out.print("Digite o CPF do Passageiro Solicitante: ");
+        String cpfPassageiro = teclado.nextLine();
+        LocalDateTime dataFutura = lerDataHora();
+        criarCarona(cpfPassageiro, dataFutura);
+    }
+
+    private LocalDateTime lerDataHora() {
+        
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        while (true) {
+            try {
+                System.out.print("Digite a data e hora do agendamento (ex: 28/05/2026 14:30): ");
+                String entrada = teclado.nextLine();
+
+                LocalDateTime dataHoraDigitada = LocalDateTime.parse(entrada, formatador);
+
+                
+                if (dataHoraDigitada.isBefore(LocalDateTime.now())) {
+                    System.out.println("[ERRO] A data e hora do agendamento devem ser no futuro!");
+                    continue;
+                }
+
+                return dataHoraDigitada;
+
+            } catch (DateTimeParseException e) {
+                System.out.println("[ERRO] Formato inválido! Use o padrão nacional: dd/MM/yyyy HH:mm");
+            }
+        }
+    }
 
 }
