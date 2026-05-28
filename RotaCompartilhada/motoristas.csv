@@ -1,0 +1,11 @@
+nome,cpf,tipo_logradouro,nome_logradouro,numero,bairro,cidade,estado,pais,cep,carro_nome,modelo,placa,chassi,ano,cor,disponivel
+João Silva,12345678901,Rua,Halfeld,100,Centro,Juiz de Fora,MG,Brasil,36010000,Onix,Chevrolet,ABC1234,9BWZZZ377VT004251,2018,Preto,true
+Maria Oliveira,23456789012,Avenida,Rio Branco,250,Centro,Juiz de Fora,MG,Brasil,36015000,Civic,Honda,DEF5678,9BWZZZ377VT004252,2020,Branco,true
+Carlos Souza,34567890123,Rua,São Mateus,500,São Mateus,Juiz de Fora,MG,Brasil,36025000,Corolla,Toyota,GHI9012,9BWZZZ377VT004253,2019,Prata,true
+Ana Costa,45678901234,Alameda,Ilva Mello Reis,45,Spina Ville,Juiz de Fora,MG,Brasil,36037000,HB20,Hyundai,JKL3456,9BWZZZ377VT004254,2021,Azul,true
+Pedro Santos,56789012345,Travessa,Doutor Prisco,78,Centro,Juiz de Fora,MG,Brasil,36010010,Gol,Volkswagen,MNO7890,9BWZZZ377VT004255,2017,Vermelho,true
+Fernanda Lima,67890123456,Rodovia,BR-040,1200,Salvaterra,Juiz de Fora,MG,Brasil,36033000,Compass,Jeep,PQR1234,9BWZZZ377VT004256,2022,Preto,true
+Lucas Rocha,78901234567,Estrada,União Indústria,300,Granjas Bethel,Juiz de Fora,MG,Brasil,36038000,Kwid,Renault,STU5678,9BWZZZ377VT004257,2019,Branco,true
+Juliana Alves,89012345678,Beco,São José,12,Santa Terezinha,Juiz de Fora,MG,Brasil,36045000,Argo,Fiat,VWX9012,9BWZZZ377VT004258,2020,Cinza,true
+Rafael Mendes,90123456789,Viaduto,Augusto Franco,200,Centro,Juiz de Fora,MG,Brasil,36010020,Tracker,Chevrolet,YZA3456,9BWZZZ377VT004259,2021,Prata,true
+Camila Ferreira,01234567890,Passarela,Engenheiro João Reis,5,Cascatinha,Juiz de Fora,MG,Brasil,36033010,Creta,Hyundai,BCD7890,9BWZZZ377VT004260,2023,Branco,true
