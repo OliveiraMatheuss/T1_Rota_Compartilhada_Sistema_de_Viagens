@@ -63,7 +63,7 @@ public class Menu {
     }
 
     // MOTORISTA
-    public void menuMotorista() {
+    private void menuMotorista() {
         int opcao = 1;
 
         while (opcao != 0) {
@@ -96,7 +96,7 @@ public class Menu {
         }
     }
 
-    public Endereco cadastraEndereco() {
+    private Endereco cadastraEndereco() {
 
         System.out.print("Tipo Logradouto: ");
         String tipo = teclado.nextLine();
@@ -119,7 +119,7 @@ public class Menu {
         return endereco;
     }
 
-    public void cadastrarMotorista() {
+    private void cadastrarMotorista() {
 
         //PESSOA
         System.out.println("--- Cadastro de Motorista ---");
@@ -158,7 +158,7 @@ public class Menu {
 
     }
 
-    public void listarMotorista() {
+    private void listarMotorista() {
 
         System.out.println("=== MOTORISTAS CADASTRADOS ===");
 
@@ -173,7 +173,7 @@ public class Menu {
 
     }
 
-    public void procurarMotorista() {
+    private void procurarMotorista() {
 
         System.out.println("=== DADOS DO MOTORISTA ===");
         System.out.print("Digite o CPF do Motorista: ");
@@ -188,7 +188,7 @@ public class Menu {
 
     }
 
-    public void exibirMotorista(Motorista motorista) {
+    private void exibirMotorista(Motorista motorista) {
 
         System.out.println("=== DADOS DO MOTORISTA ===");
         System.out.println("Motoritas: " + motorista.getNome() + " CPF: " + motorista.getCpf());
@@ -375,7 +375,7 @@ public class Menu {
 
     }
 
-    public void listarPassageiro() {
+    private void listarPassageiro() {
 
         System.out.println("=== PASSAGEIROS CADASTRADOS ===");
 
@@ -533,6 +533,8 @@ public class Menu {
                     agendarCarona();
                     exibirAgendamentos();
                     verificarStatusCarona();
+                    exibirCaronasEmAndamento();
+                    exibirCaronasFinalizadas();
 
             }
         }
@@ -629,7 +631,7 @@ public class Menu {
 
     }
 
-    public void agendarCarona() {
+    private void agendarCarona() {
         System.out.println("=== AGENDAR CARONA FUTURA ===");
         System.out.print("Digite o CPF do Passageiro Solicitante: ");
         String cpfPassageiro = teclado.nextLine();
@@ -663,69 +665,82 @@ public class Menu {
 
     private void exibirAgendamentos() {
 
-        System.out.println("=== CARONAS AGENDADAS (FUTURAS) ===");
+        System.out.println("=== CARONAS AGENDADAS ===");
+        exibirPorStatus("AGENDADA");
+    }
+
+    private void verificarStatusCarona() {
+        System.out.println("=== VERIFICAR STATUS DE CARONA ===");
 
         if (this.caronas.isEmpty()) {
             System.out.println("Nenhuma carona cadastrada no sistema.");
             return;
         }
-        boolean encontrouAgendamento = false;
+
+        System.out.print("Digite o CPF do Passageiro para buscar o status: ");
+        String cpf = teclado.nextLine();
+
+        boolean encontrou = false;
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        
         for (Carona carona : this.caronas) {
-            if (carona.getDataHoraInicio().isAfter(LocalDateTime.now())) {
-                encontrouAgendamento = true;
+
+            if (carona.getPassageiro().getCpf().equals(cpf)) {
+                encontrou = true;
 
                 System.out.println("\n--------------------------------------------------");
-                System.out.println("Passageiro: " + carona.getPassageiro().getNome() + " (CPF: " + carona.getPassageiro().getCpf() + ")");
-                System.out.println("Motorista: " + carona.getMotorista().getNome() + " (CPF: " + carona.getMotorista().getCpf() + ")");
-                System.out.println("Origem: " + carona.getOrigem().getNomeLogradouro() + ", " + carona.getOrigem().getNumero());
-                System.out.println("Destino: " + carona.getDestino().getNomeLogradouro() + ", " + carona.getDestino().getNumero());
+                System.out.println("STATUS DA CARONA: [" + carona.obterStatus() + "]");
+                System.out.println("Motorista: " + carona.getMotorista().getNome());
+                System.out.println("Origem: " + carona.getOrigem().getNomeLogradouro());
+                System.out.println("Destino: " + carona.getDestino().getNomeLogradouro());
                 System.out.println("Horário de Partida: " + carona.getDataHoraInicio().format(formatador));
                 System.out.println("Chegada Estimada: " + carona.getDataHoraFim().format(formatador));
                 System.out.println("--------------------------------------------------");
             }
         }
 
-        
-        if (!encontrouAgendamento) {
-            System.out.println("Não existem caronas agendadas.");
+        if (!encontrou) {
+            System.out.println("[AVISO] Nenhuma carona encontrada para o CPF informado.");
         }
     }
-   
-    private void verificarStatusCarona(){
-        System.out.println("=== VERIFICAR STATUS DE CARONA ===");
-    
-    if (this.caronas.isEmpty()) {
-        System.out.println("Nenhuma carona cadastrada no sistema.");
-        return;
-    }
-    
-    System.out.print("Digite o CPF do Passageiro para buscar o status: ");
-    String cpf = teclado.nextLine();
-    
-    boolean encontrou = false;
-    DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    
-    for (Carona carona : this.caronas) {
+
+    private void exibirCaronasEmAndamento() {
+        System.out.println("=== CARONAS EM ANDAMENTO ===");
+        exibirPorStatus("EM ANDAMENTO");
         
-        if (carona.getPassageiro().getCpf().equals(cpf)) {
-            encontrou = true;
+    }
+    private void exibirCaronasFinalizadas() {
+        System.out.println("=== CARONAS FINALIZADAS ===");
+        exibirPorStatus("FINALIZADA");
+    }
+    private void exibirPorStatus(String status){
+        
+        if (this.caronas.isEmpty()) {
+            System.out.println("Nenhuma carona cadastrada no sistema.");
+            return;
+        }
+
+        boolean encontrou = false;
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        for (Carona carona : this.caronas) {
             
-            System.out.println("\n--------------------------------------------------");
-            System.out.println("STATUS DA CARONA: [" + carona.obterStatus() + "]");
-            System.out.println("Motorista: " + carona.getMotorista().getNome());
-            System.out.println("Origem: " + carona.getOrigem().getNomeLogradouro());
-            System.out.println("Destino: " + carona.getDestino().getNomeLogradouro());
-            System.out.println("Horário de Partida: " + carona.getDataHoraInicio().format(formatador));
-            System.out.println("Chegada Estimada: " + carona.getDataHoraFim().format(formatador));
-            System.out.println("--------------------------------------------------");
+            if (status.equals(carona.obterStatus())) {
+                encontrou = true;
+
+                System.out.println("\n--------------------------------------------------");
+                System.out.println("Passageiro: " + carona.getPassageiro().getNome() + " (CPF: " + carona.getPassageiro().getCpf() + ")");
+                System.out.println("Motorista: " + carona.getMotorista().getNome() + " (CPF: " + carona.getMotorista().getCpf() + ")");
+                System.out.println("Origem: " + carona.getOrigem().getNomeLogradouro() + ", " + carona.getOrigem().getNumero());
+                System.out.println("Destino: " + carona.getDestino().getNomeLogradouro() + ", " + carona.getDestino().getNumero());
+                System.out.println("Iniciada em: " + carona.getDataHoraInicio().format(formatador));
+                System.out.println("Término Estimado: " + carona.getDataHoraFim().format(formatador));
+                System.out.println("--------------------------------------------------");
+            }
         }
-    }
-    
-    if (!encontrou) {
-        System.out.println("[AVISO] Nenhuma carona encontrada para o CPF informado.");
-    }
+
+        if (!encontrou) {
+            System.out.println("Não existem caronas em andamento neste momento.");
+        }
     }
 }
