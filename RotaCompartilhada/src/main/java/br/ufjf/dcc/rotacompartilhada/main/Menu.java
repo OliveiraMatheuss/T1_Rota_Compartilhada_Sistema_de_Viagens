@@ -95,9 +95,17 @@ public class Menu {
             System.out.println("2. Passageiro");
             System.out.println("3. Carona");
             System.out.println("0. Sair");
-            System.out.print("Escolha uma opção: ");
-
+            System.out.print("Escolha uma opcao: ");
+            
+            try{
+                
             opcao = Integer.parseInt(teclado.nextLine());
+            
+            }catch(NumberFormatException e){
+                
+                System.out.println("[ERRO] Digite apenas numeros.");
+                return;
+            }
 
             processarOpcao(opcao);
         }
@@ -114,6 +122,12 @@ public class Menu {
                 menuCarona();
             case 0 ->
                 System.out.println("Saindo...");
+                
+            default -> 
+                System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
+                
+               
+                    
 
         }
     }
@@ -130,9 +144,17 @@ public class Menu {
             System.out.println("4. Editar Motorista");
             System.out.println("5. Excluir Motorista");
             System.out.println("0. voltar");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Escolha uma opcao: ");
 
+            try{
+                
             opcao = Integer.parseInt(teclado.nextLine());
+            
+            }catch(NumberFormatException e){
+                
+                System.out.println("[ERRO] Digite apenas numeros.");
+                return;
+            }
 
             switch (opcao) {
                 case 1 ->
@@ -147,6 +169,8 @@ public class Menu {
                     menuExcluirMotorista();
                 case 0 ->
                     exibirMenuPrincipal();
+                default -> 
+                System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
 
             }
         }
@@ -197,7 +221,13 @@ public class Menu {
         System.out.print("Chassi: ");
         String chassi = teclado.nextLine();
         System.out.print("Ano: ");
+        try{
+            
         int ano = Integer.parseInt(teclado.nextLine());
+        }catch(NumberFormatException e){
+            System.out.println("[ERRO] Digite apenas números.");
+        }
+        
         System.out.print("Cor: ");
         String cor = teclado.nextLine();
 
@@ -328,7 +358,7 @@ public class Menu {
                     } else if (opc == 0) {
                         motorista.setDisponivel(false);
                     } else {
-                        System.out.println("Opção Invalida:");
+                        System.out.println("[INVALIDO] Opção Invalida:");
 
                     }
                     break;
@@ -336,7 +366,7 @@ public class Menu {
                     menuMotorista();
                     break;
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
                     break;
 
             }
@@ -388,7 +418,7 @@ public class Menu {
             System.out.println("4. Editar Passageiro");
             System.out.println("5. Excluir Passageiro");
             System.out.println("0. Voltar");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Escolha uma opcao: ");
 
             opcao = Integer.parseInt(teclado.nextLine());
 
@@ -409,7 +439,9 @@ public class Menu {
                     menuExcluirPassageiro();
 
                 case 0 ->
-                    System.out.println("Saindo...");
+                    System.out.println("Voltando...");
+                default -> 
+                System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
 
             }
         }
@@ -436,7 +468,7 @@ public class Menu {
         System.out.println("=== PASSAGEIROS CADASTRADOS ===");
 
         if (this.passageiros.isEmpty()) {
-            System.out.println("Nenhum Passageiro Cadastrado");
+            System.out.println("[AVISO] Nenhum Passageiro Cadastrado");
             return;
         }
 
@@ -526,7 +558,7 @@ public class Menu {
                     System.out.println("Voltando..");
                     break;
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println("[INVALIDO] Opção inválida!");
                     break;
 
             }
@@ -579,18 +611,25 @@ public class Menu {
             System.out.println("5. Exibir Caronas em Andamento");
             System.out.println("6. Exibir Caronas Finalizadas");
             System.out.println("0. Voltar");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Escolha uma opcao: ");
 
             opcao = Integer.parseInt(teclado.nextLine());
 
             switch (opcao) {
                 case 1:
                     cadastrarCarona();
+                case 2:
                     agendarCarona();
+                case 3:
                     exibirAgendamentos();
+                case 4:
                     verificarStatusCarona();
+                case 5:
                     exibirCaronasEmAndamento();
+                case 6:
                     exibirCaronasFinalizadas();
+                default: 
+                    System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
 
             }
         }
@@ -632,7 +671,7 @@ public class Menu {
             for (Carona carona : this.caronas) {
 
                 if (carona.getPassageiro().getCpf().equals(cpfPassageiro) && carona.conflitaCom(inicio, fim)) {
-                    System.out.println("Alerta: O Passageiro já possui uma carona agendada!");
+                    System.out.println("[Alerta] O Passageiro já possui uma carona agendada!");
                     break;
                 }
             }
@@ -672,7 +711,7 @@ public class Menu {
                 }
             }
             if (motoristasSelecionados.isEmpty()) {
-                System.out.println("Alerta: Nenhum motorista disponivel");
+                System.out.println("[ALERTA] Nenhum motorista disponivel");
                 return;
 
             }
