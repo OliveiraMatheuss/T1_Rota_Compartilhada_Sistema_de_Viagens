@@ -5,6 +5,9 @@
 package br.ufjf.dcc.rotacompartilhada.main;
 
 import br.ufjf.dcc.rotacompartilhada.model.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -24,13 +27,66 @@ public class Menu {
     private List<Carona> caronas = new ArrayList<>();
     private Scanner teclado = new Scanner(System.in);
 
-    //SOMENTE PARA TESTE, APAGAR DEPOIS
-    public void setMotoristaTeste() {
-        Motorista motorista = new Motorista();
-        this.motoristas.add(motorista);
+    private void lerBaseMotorista(){
+        
+            String arquivo = "motoristas.csv";
+        
+            try{
+                List<String> linhas = Files.readAllLines(Paths.get(arquivo));        
+                
+                for(String linha: linhas.subList(1, linhas.size())){
+                    
+                    //Pessoa
+                    String[] dados = linha.split(",");
+                    String nome = dados[0];
+                    String cpf = dados[1];
+                    
+                    //Endereco
+                    String tipoLogradouro = dados[2];
+                    String nomeLogradouro = dados[3];
+                    int numero = Integer.parseInt(dados[4]);
+                    String bairro = dados[5];
+                    String cidade = dados[6];
+                    String estado = dados[7];
+                    String pais = dados[8];
+                    String cep = dados[9];
+                    
+                    Endereco endereco = new Endereco(tipoLogradouro,nomeLogradouro,numero, bairro,cidade, estado, pais, cep);
+                    
+                    
+                    //Veiculo
+                    
+                    String nomeCarro = dados[10];
+                    String modeloCarro = dados[11];
+                    String placaCarro = dados[12];
+                    String chassiCarro = dados[13];
+                    int anoFabricacao = Integer.parseInt(dados[14]);
+                    String corCarro = dados[15];
+                    
+                    Veiculo veiculo = new Veiculo(nomeCarro, modeloCarro, placaCarro, chassiCarro, anoFabricacao, corCarro);
+                    
+                    // Disponibilidade
+                    
+                    boolean disponibilidade = Boolean.parseBoolean(dados[16]);
+                    
+                    
+                     Motorista motorista = new Motorista(nome, cpf, endereco, veiculo);
+                     motorista.setDisponivel(disponibilidade);
+                     this.motoristas.add(motorista);
+                    
+                }
+                
+                
+            }catch(IOException e) {
+                System.out.println("[Erro] ao ler o arquivo " + e.getMessage());
+            }
+        
+        
     }
 
     public void exibirMenuPrincipal() {
+        
+        lerBaseMotorista();
         int opcao = 1;
 
         while (opcao != 0) {
