@@ -659,7 +659,7 @@ public class Menu {
 
                 if (carona.getPassageiro().getCpf().equals(cpfPassageiro) && carona.conflitaCom(inicio, fim)) {
                     System.out.println("[Alerta] O Passageiro já possui uma carona agendada!");
-                    break;
+                    return;
                 }
             }
 
@@ -740,7 +740,7 @@ public class Menu {
                 return dataHoraDigitada;
 
             } catch (DateTimeParseException e) {
-                System.out.println("[ERRO] Formato inválido! Use o padrão nacional: dd/MM/yyyy HH:mm");
+                System.out.println("[ERRO] Formato invalido! Use o padrão nacional: dd/MM/yyyy HH:mm");
             }
         }
     }
