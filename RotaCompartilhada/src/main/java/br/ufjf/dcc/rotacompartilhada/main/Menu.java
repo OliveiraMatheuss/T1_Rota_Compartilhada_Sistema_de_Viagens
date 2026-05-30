@@ -96,15 +96,20 @@ public class Menu {
             switch (opcao) {
                 case 1:
                     menuMotorista();
+                    break;
                 case 2:
                     menuPassageiro();
+                    break;
                 case 3:
                     menuCarona();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
+                    break;
 
                 default:
                     System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
+                    break;
             }
         }
     }
@@ -127,19 +132,25 @@ public class Menu {
             switch (opcao) {
                 case 1:
                     cadastrarMotorista();
+                    break;
                 case 2:
                     listarMotorista();
+                    break;
                 case 3:
                     procurarMotorista();
+                    break;
                 case 4:
                     menuEditarMotorista();
+                    break;
                 case 5:
                     menuExcluirMotorista();
+                    break;
                 case 0:
-                    exibirMenuPrincipal();
+                    System.out.println("Voltando ...");
+                    break;
                 default:
                     System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
-
+                    break;
             }
         }
     }
@@ -325,7 +336,7 @@ public class Menu {
                     }
                     break;
                 case 0:
-                    menuMotorista();
+                    System.out.println("Voltando ...");
                     break;
                 default:
                     System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
@@ -385,26 +396,32 @@ public class Menu {
             opcao = lerNumero();
 
             switch (opcao) {
-                case 1 ->
+                case 1:
                     cadastrarPassageiro();
+                    break;
 
-                case 2 ->
+                case 2:
                     listarPassageiro();
+                    break;
 
-                case 3 ->
+                case 3:
                     procurarPassageiro();
+                    break;
 
-                case 4 ->
+                case 4:
                     menuEditarPassageiro();
+                    break;
 
-                case 5 ->
+                case 5:
                     menuExcluirPassageiro();
+                    break;
 
-                case 0 ->
+                case 0:
                     System.out.println("Voltando...");
-                default ->
+                    break;
+                default:
                     System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
-
+                    break;
             }
         }
     }
@@ -580,19 +597,27 @@ public class Menu {
             switch (opcao) {
                 case 1:
                     cadastrarCarona();
+                    break;
                 case 2:
                     agendarCarona();
+                    break;
                 case 3:
                     exibirAgendamentos();
+                    break;
                 case 4:
                     verificarStatusCarona();
+                    break;
                 case 5:
                     exibirCaronasEmAndamento();
+                    break;
                 case 6:
                     exibirCaronasFinalizadas();
+                    break;
+                case 0:
+                    System.out.println("Voltando...");
                 default:
                     System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
-
+                    break;
             }
         }
     }

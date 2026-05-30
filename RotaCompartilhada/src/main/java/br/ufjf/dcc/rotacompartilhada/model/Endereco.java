@@ -11,7 +11,7 @@ import java.util.Arrays;
  * @author 55329
  */
 public class Endereco {
-    private  String tipoLogradouro;
+    private String tipoLogradouro;
     private String nomeLogradouro;
     private int numero;
     private String bairro;

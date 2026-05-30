@@ -1,0 +1,96 @@
+@startuml
+
+class Endereco{
+    - tipoLogradouro: String
+    - nomeLogradouro: String
+    - numero: int
+    - bairro: String
+    - cidade: String
+    - estado: String
+    - pais: String
+    - cep: String
+}
+class Pessoa{
+   -  nome: String
+   -  cpf: String
+}
+class Passageiro{
+}
+class Motorista{
+    - veiculo: Veiculo
+    - disponivel: boolean
+    + podeOferecerCarona()
+}
+class Veiculo{
+    - nome: String
+    - modelo: String
+    - placa: String
+    - chassi: String
+    - anoFabricacao: int
+    - cor: String
+}
+class Carona{
+    - motorista: Motorista
+    - passageiro: Passageiro
+    - origem: Endereco
+    - destino: Endereco
+    - dataHoraInicio: LocalDateTime
+    - dataHotaFim: LocalDateTime
+    - duracaoHoras: int
+    + conflitaCom(LocalDateTime inicioOutra, LocalDateTime fimOutra)
+    + obterStatus()
+    
+}
+class Menu{
+    - motoristas: List<Motorista>
+    - passageiros: List<Passageiro>
+    - caronas: List<Carona>
+    - teclado: Scanner
+    + exibirMenuPrincipal(): void
+    - lerBaseMotorista(): void
+    - cadastraEndereco(): Endereco
+    - menuMotorista(): void
+    - cadastrarMotorista(): void
+    - listarMotorista(): void
+    - procurarMotorista(): void
+    - exibirMotorista(): void
+    - menuEditarMotorista(): void
+    - editarMotorista(Motorista motorista): void
+    - menuExcluirMotorista(): void
+    - excluirMotorista(Motorista motorista): void
+    - menuPassageiro(): void
+    - cadastrarPassageiro(): void
+    - listarPassageiro(): void
+    - procurarPassageiro(): void
+    - exibirPassageiro(Passageiro passageiro): void
+    - menuEditarPassageiro(): void
+    - editarPassageiro(Passageiro passageiro): void
+    - menuExcluirPassageiro(): void
+    - excluirPassageiro(Passageiro passageiro): void
+    - menuCarona(): void
+    - cadastrarCarona(): void
+    - criarCarona(String cpfPassageiro, LocalDateTime inicio): void
+    - agendarCarona(): void
+    - lerDataHora(): LocalDateTime
+    - exibirAgendamentos(): void
+    - exibirCaronasEmAndamento(): void
+    - exibirCaronasFinalizadas(): void
+    - exibirPorStatus(String status): void
+    - lerNumero(): int
+}
+
+Pessoa "*" --> "1." Endereco: "Mora"
+Passageiro --|>  Pessoa
+Motorista  --|>  Pessoa
+Motorista "1." --> "1." Veiculo: "Dirige"
+Carona "*" --> "1" Passageiro: "Pedido por"
+Carona "*" --> "1." Endereco: "Origem"
+Carona "*" --> "1." Endereco: "Destino"
+Carona "*" --> "1" Motorista: "Conduzida por"
+Menu "1" o-- "0..*" Motorista: Gerencia
+Menu "1" o-- "0..*" Passageiro: Gerencia
+Menu "1" o-- "0..*" Carona: Gerencia
+Menu ..> Endereco : "Instancia"
+Menu ..> Veiculo : "Instancia"
+ 
+@enduml
