@@ -27,65 +27,59 @@ public class Menu {
     private List<Carona> caronas = new ArrayList<>();
     private Scanner teclado = new Scanner(System.in);
 
-    private void lerBaseMotorista(){
-        
-            String arquivo = "motoristas.csv";
-        
-            try{
-                List<String> linhas = Files.readAllLines(Paths.get(arquivo));        
-                
-                for(String linha: linhas.subList(1, linhas.size())){
-                    
-                    //Pessoa
-                    String[] dados = linha.split(",");
-                    String nome = dados[0];
-                    String cpf = dados[1];
-                    
-                    //Endereco
-                    String tipoLogradouro = dados[2];
-                    String nomeLogradouro = dados[3];
-                    int numero = Integer.parseInt(dados[4]);
-                    String bairro = dados[5];
-                    String cidade = dados[6];
-                    String estado = dados[7];
-                    String pais = dados[8];
-                    String cep = dados[9];
-                    
-                    Endereco endereco = new Endereco(tipoLogradouro,nomeLogradouro,numero, bairro,cidade, estado, pais, cep);
-                    
-                    
-                    //Veiculo
-                    
-                    String nomeCarro = dados[10];
-                    String modeloCarro = dados[11];
-                    String placaCarro = dados[12];
-                    String chassiCarro = dados[13];
-                    int anoFabricacao = Integer.parseInt(dados[14]);
-                    String corCarro = dados[15];
-                    
-                    Veiculo veiculo = new Veiculo(nomeCarro, modeloCarro, placaCarro, chassiCarro, anoFabricacao, corCarro);
-                    
-                    // Disponibilidade
-                    
-                    boolean disponibilidade = Boolean.parseBoolean(dados[16]);
-                    
-                    
-                     Motorista motorista = new Motorista(nome, cpf, endereco, veiculo);
-                     motorista.setDisponivel(disponibilidade);
-                     this.motoristas.add(motorista);
-                    
-                }
-                
-                
-            }catch(IOException e) {
-                System.out.println("[Erro] ao ler o arquivo " + e.getMessage());
+    private void lerBaseMotorista() {
+
+        String arquivo = "motoristas.csv";
+
+        try {
+            List<String> linhas = Files.readAllLines(Paths.get(arquivo));
+
+            for (String linha : linhas.subList(1, linhas.size())) {
+
+                //Pessoa
+                String[] dados = linha.split(",");
+                String nome = dados[0];
+                String cpf = dados[1];
+
+                //Endereco
+                String tipoLogradouro = dados[2];
+                String nomeLogradouro = dados[3];
+                int numero = Integer.parseInt(dados[4]);
+                String bairro = dados[5];
+                String cidade = dados[6];
+                String estado = dados[7];
+                String pais = dados[8];
+                String cep = dados[9];
+
+                Endereco endereco = new Endereco(tipoLogradouro, nomeLogradouro, numero, bairro, cidade, estado, pais, cep);
+
+                //Veiculo
+                String nomeCarro = dados[10];
+                String modeloCarro = dados[11];
+                String placaCarro = dados[12];
+                String chassiCarro = dados[13];
+                int anoFabricacao = Integer.parseInt(dados[14]);
+                String corCarro = dados[15];
+
+                Veiculo veiculo = new Veiculo(nomeCarro, modeloCarro, placaCarro, chassiCarro, anoFabricacao, corCarro);
+
+                // Disponibilidade
+                boolean disponibilidade = Boolean.parseBoolean(dados[16]);
+
+                Motorista motorista = new Motorista(nome, cpf, endereco, veiculo);
+                motorista.setDisponivel(disponibilidade);
+                this.motoristas.add(motorista);
+
             }
-        
-        
+
+        } catch (IOException e) {
+            System.out.println("[Erro] ao ler o arquivo " + e.getMessage());
+        }
+
     }
 
     public void exibirMenuPrincipal() {
-        
+
         lerBaseMotorista();
         int opcao = 1;
 
@@ -96,43 +90,25 @@ public class Menu {
             System.out.println("3. Carona");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opcao: ");
-            
-            try{
-                
-            opcao = Integer.parseInt(teclado.nextLine());
-            
-            }catch(NumberFormatException e){
-                
-                System.out.println("[ERRO] Digite apenas numeros.");
-                return;
+
+            opcao = lerNumero();
+
+            switch (opcao) {
+                case 1:
+                    menuMotorista();
+                case 2:
+                    menuPassageiro();
+                case 3:
+                    menuCarona();
+                case 0:
+                    System.out.println("Saindo...");
+
+                default:
+                    System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
             }
-
-            processarOpcao(opcao);
         }
     }
-
-    private void processarOpcao(int opcao) {
-
-        switch (opcao) {
-            case 1 ->
-                menuMotorista();
-            case 2 ->
-                menuPassageiro();
-            case 3 ->
-                menuCarona();
-            case 0 ->
-                System.out.println("Saindo...");
-                
-            default -> 
-                System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
-                
-               
-                    
-
-        }
-    }
-
-    // MOTORISTA
+        // MOTORISTA
     private void menuMotorista() {
         int opcao = 1;
 
@@ -146,31 +122,23 @@ public class Menu {
             System.out.println("0. voltar");
             System.out.print("Escolha uma opcao: ");
 
-            try{
-                
-            opcao = Integer.parseInt(teclado.nextLine());
-            
-            }catch(NumberFormatException e){
-                
-                System.out.println("[ERRO] Digite apenas numeros.");
-                return;
-            }
+            opcao = lerNumero();
 
             switch (opcao) {
-                case 1 ->
+                case 1:
                     cadastrarMotorista();
-                case 2 ->
+                case 2:
                     listarMotorista();
-                case 3 ->
+                case 3:
                     procurarMotorista();
-                case 4 ->
+                case 4:
                     menuEditarMotorista();
-                case 5 ->
+                case 5:
                     menuExcluirMotorista();
-                case 0 ->
+                case 0:
                     exibirMenuPrincipal();
-                default -> 
-                System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
+                default:
+                    System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
 
             }
         }
@@ -183,7 +151,7 @@ public class Menu {
         System.out.print("Nome Logradouro: ");
         String nomeLogradouro = teclado.nextLine();
         System.out.print("Numero: ");
-        int numero = Integer.parseInt(teclado.nextLine());
+        int numero = lerNumero();
         System.out.print("Bairro: ");
         String bairro = teclado.nextLine();
         System.out.print("Cidade: ");
@@ -221,13 +189,7 @@ public class Menu {
         System.out.print("Chassi: ");
         String chassi = teclado.nextLine();
         System.out.print("Ano: ");
-        try{
-            
-        int ano = Integer.parseInt(teclado.nextLine());
-        }catch(NumberFormatException e){
-            System.out.println("[ERRO] Digite apenas números.");
-        }
-        
+        int ano = lerNumero();
         System.out.print("Cor: ");
         String cor = teclado.nextLine();
 
@@ -310,7 +272,7 @@ public class Menu {
             System.out.println("5. Disponibilidade");
             System.out.println("0. Voltar");
             System.out.print("Escolha o Campo para Editar: ");
-            opcao = Integer.parseInt(teclado.nextLine());
+            opcao = lerNumero();
 
             switch (opcao) {
 
@@ -342,7 +304,7 @@ public class Menu {
                     System.out.print("Chassi: ");
                     String chassi = teclado.nextLine();
                     System.out.print("Ano: ");
-                    int ano = Integer.parseInt(teclado.nextLine());
+                    int ano = lerNumero();
                     System.out.print("Cor: ");
                     String cor = teclado.nextLine();
 
@@ -352,7 +314,7 @@ public class Menu {
 
                 case 5:
                     System.out.print("Digite 0 para indisponivel e 1 disponivel");
-                    int opc = Integer.parseInt(teclado.nextLine());
+                    int opc = lerNumero();
                     if (opc == 1) {
                         motorista.setDisponivel(true);
                     } else if (opc == 0) {
@@ -420,7 +382,7 @@ public class Menu {
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opcao: ");
 
-            opcao = Integer.parseInt(teclado.nextLine());
+            opcao = lerNumero();
 
             switch (opcao) {
                 case 1 ->
@@ -440,8 +402,8 @@ public class Menu {
 
                 case 0 ->
                     System.out.println("Voltando...");
-                default -> 
-                System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
+                default ->
+                    System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
 
             }
         }
@@ -532,7 +494,7 @@ public class Menu {
             System.out.println("3. Endereco");
             System.out.println("0. Voltar");
             System.out.print("Escolha o Campo para Editar: ");
-            opcao = Integer.parseInt(teclado.nextLine());
+            opcao = lerNumero();
 
             switch (opcao) {
 
@@ -585,7 +547,7 @@ public class Menu {
         System.out.println("Tem certeza? ");
         System.out.println("Digite 1 para Sim e 2 para Não");
 
-        int confirmacao = Integer.parseInt(teclado.nextLine());
+        int confirmacao = lerNumero();
 
         if (confirmacao == 1) {
             passageiros.remove(passageiro);
@@ -613,7 +575,7 @@ public class Menu {
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opcao: ");
 
-            opcao = Integer.parseInt(teclado.nextLine());
+            opcao = lerNumero();
 
             switch (opcao) {
                 case 1:
@@ -628,7 +590,7 @@ public class Menu {
                     exibirCaronasEmAndamento();
                 case 6:
                     exibirCaronasFinalizadas();
-                default: 
+                default:
                     System.out.println("[INVALIDO] opcao: " + opcao + " nao eh valida");
 
             }
@@ -802,14 +764,16 @@ public class Menu {
     private void exibirCaronasEmAndamento() {
         System.out.println("=== CARONAS EM ANDAMENTO ===");
         exibirPorStatus("EM ANDAMENTO");
-        
+
     }
+
     private void exibirCaronasFinalizadas() {
         System.out.println("=== CARONAS FINALIZADAS ===");
         exibirPorStatus("FINALIZADA");
     }
-    private void exibirPorStatus(String status){
-        
+
+    private void exibirPorStatus(String status) {
+
         if (this.caronas.isEmpty()) {
             System.out.println("Nenhuma carona cadastrada no sistema.");
             return;
@@ -819,7 +783,7 @@ public class Menu {
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         for (Carona carona : this.caronas) {
-            
+
             if (status.equals(carona.obterStatus())) {
                 encontrou = true;
 
@@ -836,6 +800,17 @@ public class Menu {
 
         if (!encontrou) {
             System.out.println("Não existem caronas em andamento neste momento.");
+        }
+    }
+
+    private int lerNumero() {
+        while (true) {
+            try {
+                return Integer.parseInt(teclado.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("[ERRO] Entrada invalida! Por favor, digite apenas numeros inteiros.");
+                System.out.print("Digite novamente: ");
+            }
         }
     }
 }
